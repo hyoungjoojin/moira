@@ -1,0 +1,12 @@
+type Query {
+  meetings: [Meeting]
+}
+
+type Mutation {
+  createMeeting(title: String!): Meeting
+}
+
+type Meeting {
+  id: String!
+  title: String!
+}

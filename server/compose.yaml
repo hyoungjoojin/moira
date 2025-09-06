@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: "mysql:latest"
+    environment:
+      - "MYSQL_DATABASE=moira"
+      - "MYSQL_PASSWORD=password"
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_USER=moira"
+    ports:
+      - "3306"
+  redis:
+    image: redis:8.0.3-alpine
+    ports:
+      - "6379"
