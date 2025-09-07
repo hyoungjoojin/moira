@@ -1,0 +1,45 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "relay-compiler && vite --host --port 3000",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "relay:compile": "relay-compiler"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-relay": "^20.1.1",
+    "relay-runtime": "^20.1.1",
+    "rm": "^0.1.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@types/react-relay": "^18.2.1",
+    "@types/relay-runtime": "^19.0.2",
+    "@vitejs/plugin-react": "^5.0.0",
+    "babel-plugin-relay": "^20.1.1",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-relay": "^2.0.0",
+    "globals": "^16.3.0",
+    "graphql": "^16.11.0",
+    "relay-compiler": "^20.1.1",
+    "relay-compiler-language-typescript": "^15.0.1",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  },
+  "relay": {
+    "src": "./src/",
+    "schema": "../server/src/main/resources/schema/schema.graphqls",
+    "language": "typescript"
+  }
+}
