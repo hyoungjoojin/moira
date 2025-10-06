@@ -13,4 +13,5 @@ pnpm run build
 echo "[*] Generating schema"
 pnpm run generate \
   "$PROJECT_DIRECTORY/docs/graphql" \
-  "$PROJECT_DIRECTORY/apps/server/src/main/resources/schema"
+  "$PROJECT_DIRECTORY/apps/server/src/main/resources/schema" \
+  "$PROJECT_DIRECTORY/apps/web"
