@@ -29,6 +29,6 @@ public class RegisterUserMutation {
   }
 
   private RegisterUserCommand map(RegisterUserInput input) {
-    return new RegisterUserCommand(input.email());
+    return new RegisterUserCommand(input.email(), input.password());
   }
 }

@@ -16,4 +16,5 @@ type Mutation {
 
 input RegisterUserInput {
   email: String!
+  password: String!
 }

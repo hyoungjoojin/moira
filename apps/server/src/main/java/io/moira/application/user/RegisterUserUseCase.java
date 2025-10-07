@@ -6,6 +6,7 @@ import io.moira.domain.user.UserRepository;
 import io.moira.shared.domain.UseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +16,11 @@ public class RegisterUserUseCase {
   private static final Logger logger = LoggerFactory.getLogger(RegisterUserUseCase.class);
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-  public RegisterUserUseCase(UserRepository userRepository) {
+  public RegisterUserUseCase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User execute(RegisterUserCommand command) throws UserAlreadyExistsException {
@@ -26,7 +29,9 @@ public class RegisterUserUseCase {
       throw new UserAlreadyExistsException();
     }
 
-    User user = User.create(command.email());
+    String hashedPassword = passwordEncoder.encode(command.password());
+
+    User user = User.create(command.email(), hashedPassword);
     user = userRepository.save(user);
     return user;
   }

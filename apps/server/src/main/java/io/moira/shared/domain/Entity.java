@@ -1,10 +1,13 @@
 package io.moira.shared.domain;
 
+import org.springframework.util.Assert;
+
 public abstract class Entity<T> {
 
   protected final T id;
 
   protected Entity(T id) {
+    Assert.notNull(id, "The identifier of an entity must not be null");
     this.id = id;
   }
 

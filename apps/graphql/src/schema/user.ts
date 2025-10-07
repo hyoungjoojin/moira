@@ -36,6 +36,7 @@ const RegisterUserInput = new GraphQLInputObjectType({
   name: "RegisterUserInput",
   fields: {
     email: { type: new GraphQLNonNull(GraphQLString) },
+    password: { type: new GraphQLNonNull(GraphQLString) },
   },
 });
 
