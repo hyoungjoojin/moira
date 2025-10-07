@@ -1,20 +1,40 @@
 type Query {
-  user(id: String!): User
+  user(id: ID!): User
+  squad(id: ID!): Squad
 }
 
 type User {
   id: ID!
   email: String!
+  squads: [Squad]!
   createdAt: DateTime!
+}
+
+type Squad {
+  id: ID!
+  name: String!
+  members: [SquadMember]!
+  createdAt: DateTime!
+}
+
+type SquadMember {
+  user: User!
+  joinedAt: DateTime!
+  invitedBy: User
 }
 
 scalar DateTime
 
 type Mutation {
   register(input: RegisterUserInput): User
+  createSquad(input: CreateSquadInput): Squad
 }
 
 input RegisterUserInput {
   email: String!
   password: String!
+}
+
+input CreateSquadInput {
+  name: String!
 }

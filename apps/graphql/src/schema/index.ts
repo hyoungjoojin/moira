@@ -1,5 +1,10 @@
-import type { GraphQLFieldConfig, ThunkObjMap } from "graphql";
+import query from "./queries/index.js";
+import mutation from "./mutations/index.js";
+import { GraphQLSchema } from "graphql";
 
-export type QueryFields = ThunkObjMap<GraphQLFieldConfig<any, any>>;
+const schema = new GraphQLSchema({
+  query,
+  mutation,
+});
 
-export * from "./user.js";
+export default schema;

@@ -1,7 +1,7 @@
-import { GraphQLObjectType, GraphQLSchema, printSchema } from "graphql";
-import { UserMutation, UserQuery } from "./schema/index.js";
+import { printSchema } from "graphql";
 import { lstatSync, writeFile } from "fs";
 import { exit } from "process";
+import schema from "./schema/index.js";
 
 if (process.argv.length < 3) {
   console.error("[!] The output directory must be provided as an argument");
@@ -26,21 +26,6 @@ for (let i = 2; i < process.argv.length; i++) {
     exit(-1);
   }
 }
-
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "Query",
-    fields: {
-      ...UserQuery,
-    },
-  }),
-  mutation: new GraphQLObjectType({
-    name: "Mutation",
-    fields: {
-      ...UserMutation,
-    },
-  }),
-});
 
 console.log("[*] Generated GraphQL schema");
 
