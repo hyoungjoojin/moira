@@ -1,0 +1,5 @@
+spring:
+  application.name: moira
+
+  profiles:
+    active: ${STAGE}

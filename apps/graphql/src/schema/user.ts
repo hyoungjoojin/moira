@@ -6,6 +6,7 @@ import {
   GraphQLString,
 } from "graphql";
 import type { QueryFields } from "./index.js";
+import { DateTime } from "./common.js";
 
 const User = new GraphQLObjectType({
   name: "User",
@@ -15,6 +16,9 @@ const User = new GraphQLObjectType({
     },
     email: {
       type: new GraphQLNonNull(GraphQLString),
+    },
+    createdAt: {
+      type: new GraphQLNonNull(DateTime),
     },
   },
 });
@@ -28,8 +32,8 @@ const UserQuery: QueryFields = {
   },
 };
 
-const RegistrationInput = new GraphQLInputObjectType({
-  name: "RegistrationInput",
+const RegisterUserInput = new GraphQLInputObjectType({
+  name: "RegisterUserInput",
   fields: {
     email: { type: new GraphQLNonNull(GraphQLString) },
   },
@@ -40,7 +44,7 @@ const UserMutation: QueryFields = {
     type: User,
     args: {
       input: {
-        type: RegistrationInput,
+        type: RegisterUserInput,
       },
     },
   },

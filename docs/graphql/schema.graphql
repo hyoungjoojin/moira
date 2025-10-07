@@ -5,12 +5,15 @@ type Query {
 type User {
   id: ID!
   email: String!
+  createdAt: DateTime!
 }
+
+scalar DateTime
 
 type Mutation {
-  register(input: RegistrationInput): User
+  register(input: RegisterUserInput): User
 }
 
-input RegistrationInput {
+input RegisterUserInput {
   email: String!
 }
