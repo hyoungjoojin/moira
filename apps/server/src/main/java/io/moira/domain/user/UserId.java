@@ -2,12 +2,14 @@ package io.moira.domain.user;
 
 import io.moira.shared.domain.ValueObject;
 import java.util.UUID;
+import org.springframework.util.Assert;
 
 public class UserId extends ValueObject {
 
   private final UUID value;
 
   public UserId(UUID value) {
+    Assert.notNull(value, "User ID must not be null");
     this.value = value;
   }
 

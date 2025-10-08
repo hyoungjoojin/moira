@@ -1,4 +1,4 @@
-package io.moira.interfaces.graphql.user.mutation;
+package io.moira.interfaces.graphql.user.datafetcher;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
