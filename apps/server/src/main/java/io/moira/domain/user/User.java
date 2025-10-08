@@ -33,6 +33,10 @@ public class User extends AggregateRoot<UserId> {
     return user;
   }
 
+  public String getUsername() {
+    return id.toString();
+  }
+
   public String getEmail() {
     return email;
   }

@@ -3,3 +3,16 @@ spring:
 
   profiles:
     active: ${STAGE}
+
+  jpa:
+    open-in-view: false
+
+server:
+  servlet:
+    session:
+      cookie:
+        path: /
+        name: sid
+        http-only: true
+        secure: true
+    timeout: 3600

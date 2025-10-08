@@ -26,8 +26,14 @@ type SquadMember {
 scalar DateTime
 
 type Mutation {
+  login(input: LoginInput): User
   register(input: RegisterUserInput): User
   createSquad(input: CreateSquadInput): Squad
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input RegisterUserInput {
@@ -38,3 +44,4 @@ input RegisterUserInput {
 input CreateSquadInput {
   name: String!
 }
+

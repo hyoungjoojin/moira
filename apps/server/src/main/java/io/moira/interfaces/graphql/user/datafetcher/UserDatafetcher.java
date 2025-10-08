@@ -9,6 +9,7 @@ import io.moira.domain.user.User;
 import io.moira.domain.user.UserId;
 import io.moira.interfaces.graphql.user.dto.UserView;
 import io.moira.interfaces.graphql.user.mapper.UserMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @DgsComponent
 public class UserDatafetcher {
@@ -20,9 +21,10 @@ public class UserDatafetcher {
   }
 
   @DgsQuery(field = "user")
+  @PreAuthorize("isAuthenticated()")
   public UserView getUser(@InputArgument String id) throws UserNotFoundException {
     UserId userId = UserId.of(id);
-    User user = userService.getUser(userId);
+    User user = userService.getUserById(userId);
     return UserMapper.toView(user);
   }
 }
