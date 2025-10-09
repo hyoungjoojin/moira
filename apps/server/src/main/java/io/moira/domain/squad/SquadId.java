@@ -14,8 +14,13 @@ public class SquadId extends ValueObject {
   }
 
   @Override
-  public Object value() {
+  public UUID value() {
     return value;
+  }
+
+  public static SquadId create() {
+    SquadId id = new SquadId(UUID.randomUUID());
+    return id;
   }
 
   public static SquadId of(String value) {

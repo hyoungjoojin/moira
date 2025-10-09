@@ -23,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<User> findByEmail(String email) {
     return userJpaRepository.findByEmail(email).map(UserEntityMapper::toDomain);
   }

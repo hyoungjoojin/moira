@@ -24,6 +24,14 @@ public class UserEntity {
   @Column(name = "created_at")
   private OffsetDateTime createdAt;
 
+  protected UserEntity() {}
+
+  public static UserEntity of(UUID id) {
+    UserEntity entity = new UserEntity();
+    entity.setId(id);
+    return entity;
+  }
+
   public UUID getId() {
     return id;
   }

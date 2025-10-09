@@ -33,6 +33,8 @@ public class RegisterUserUseCase {
 
     User user = User.create(command.email(), hashedPassword);
     user = userRepository.save(user);
+    logger.debug("User {} has been successfully created", user.getId());
+
     return user;
   }
 }

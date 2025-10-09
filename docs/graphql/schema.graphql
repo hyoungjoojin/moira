@@ -13,11 +13,11 @@ type User {
 type Squad {
   id: ID!
   name: String!
-  members: [SquadMember]!
+  members: [Member]!
   createdAt: DateTime!
 }
 
-type SquadMember {
+type Member {
   user: User!
   joinedAt: DateTime!
   invitedBy: User
@@ -29,6 +29,7 @@ type Mutation {
   login(input: LoginInput): User
   register(input: RegisterUserInput): User
   createSquad(input: CreateSquadInput): Squad
+  inviteUserToSquad(input: InviteUserToSquadInput): Squad
 }
 
 input LoginInput {
@@ -45,3 +46,7 @@ input CreateSquadInput {
   name: String!
 }
 
+input InviteUserToSquadInput {
+  userId: ID!
+  squadId: ID!
+}

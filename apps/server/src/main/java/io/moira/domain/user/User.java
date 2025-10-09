@@ -10,11 +10,7 @@ public class User extends AggregateRoot<UserId> {
   private String hashedPassword;
   private OffsetDateTime createdAt;
 
-  protected User(UserId id) {
-    super(id);
-  }
-
-  public User(UserId id, String email, String hashedPassword, OffsetDateTime createdAt) {
+  private User(UserId id, String email, String hashedPassword) {
     super(id);
 
     Assert.notNull(email, "The user's email must not be null");
@@ -22,13 +18,15 @@ public class User extends AggregateRoot<UserId> {
 
     this.email = email;
     this.hashedPassword = hashedPassword;
+  }
+
+  public User(UserId id, String email, String hashedPassword, OffsetDateTime createdAt) {
+    this(id, email, hashedPassword);
     this.createdAt = createdAt;
   }
 
   public static User create(String email, String hashedPassword) {
-    User user = new User(UserId.create());
-    user.email = email;
-    user.hashedPassword = hashedPassword;
+    User user = new User(UserId.create(), email, hashedPassword);
     user.createdAt = OffsetDateTime.now();
     return user;
   }

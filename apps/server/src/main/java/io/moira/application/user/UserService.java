@@ -8,6 +8,7 @@ import io.moira.shared.domain.UseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +32,12 @@ public class UserService {
   public UserService(UserRepository userRepository, AuthenticationManager authenticationManager) {
     this.userRepository = userRepository;
     this.authenticationManager = authenticationManager;
+  }
+
+  @UseCase
+  @Transactional(readOnly = true)
+  public List<User> getUsersByIds(List<UserId> ids) {
+    return ids.stream().map(id -> userRepository.findById(id).orElseThrow()).toList();
   }
 
   @UseCase

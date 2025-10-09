@@ -6,6 +6,7 @@ const mutation = new GraphQLObjectType({
     login: (await import("./login.js")).default,
     register: (await import("./register.js")).default,
     createSquad: (await import("./createSquad.js")).default,
+    inviteUserToSquad: (await import("./inviteUserToSquad.js")).default,
   },
 });
 
