@@ -39,22 +39,6 @@ public class MemberEntity {
   @JoinColumn(name = "inviter_id", nullable = true)
   private UserEntity invitedBy;
 
-  public OffsetDateTime getJoinedAt() {
-    return joinedAt;
-  }
-
-  public void setJoinedAt(OffsetDateTime joinedAt) {
-    this.joinedAt = joinedAt;
-  }
-
-  public UserEntity getInvitedBy() {
-    return invitedBy;
-  }
-
-  public void setInvitedBy(UserEntity invitedBy) {
-    this.invitedBy = invitedBy;
-  }
-
   public Member toDomain() {
     MemberId id = new MemberId(this.id);
     SquadId squadId = new SquadId(this.squad.getId());

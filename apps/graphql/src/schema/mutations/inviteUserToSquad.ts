@@ -4,7 +4,6 @@ import {
   GraphQLNonNull,
   type GraphQLFieldConfig,
 } from "graphql";
-import { Squad } from "../models/index.js";
 
 const InviteUserToSquadInput = new GraphQLInputObjectType({
   name: "InviteUserToSquadInput",
@@ -15,7 +14,7 @@ const InviteUserToSquadInput = new GraphQLInputObjectType({
 });
 
 const inviteUserToSquad: GraphQLFieldConfig<any, any> = {
-  type: Squad,
+  type: GraphQLID,
   args: {
     input: {
       type: InviteUserToSquadInput,

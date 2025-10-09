@@ -1,4 +1,5 @@
 import {
+  GraphQLEnumType,
   GraphQLID,
   GraphQLList,
   GraphQLNonNull,
@@ -23,6 +24,36 @@ const Member = new GraphQLObjectType({
   }),
 });
 
+const InvitationStatus = new GraphQLEnumType({
+  name: "InvitationStatus",
+  values: {
+    PENDING: { value: "PENDING" },
+    ACCEPTED: { value: "ACCEPTED" },
+    REJECTED: { value: "REJECTED" },
+  },
+});
+
+const Invitation: GraphQLObjectType = new GraphQLObjectType({
+  name: "Invitation",
+  fields: () => ({
+    inviter: {
+      type: new GraphQLNonNull(User),
+    },
+    invitee: {
+      type: new GraphQLNonNull(User),
+    },
+    invitedTo: {
+      type: new GraphQLNonNull(Squad),
+    },
+    sentAt: {
+      type: new GraphQLNonNull(DateTime),
+    },
+    status: {
+      type: new GraphQLNonNull(InvitationStatus),
+    },
+  }),
+});
+
 const Squad = new GraphQLObjectType({
   name: "Squad",
   fields: () => ({
@@ -34,6 +65,9 @@ const Squad = new GraphQLObjectType({
     },
     members: {
       type: new GraphQLNonNull(new GraphQLList(Member)),
+    },
+    invitations: {
+      type: new GraphQLNonNull(new GraphQLList(Invitation)),
     },
     createdAt: {
       type: new GraphQLNonNull(DateTime),

@@ -14,6 +14,7 @@ type Squad {
   id: ID!
   name: String!
   members: [Member]!
+  invitations: [Invitation]!
   createdAt: DateTime!
 }
 
@@ -25,11 +26,25 @@ type Member {
 
 scalar DateTime
 
+type Invitation {
+  inviter: User!
+  invitee: User!
+  invitedTo: Squad!
+  sentAt: DateTime!
+  status: InvitationStatus!
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 type Mutation {
   login(input: LoginInput): User
   register(input: RegisterUserInput): User
   createSquad(input: CreateSquadInput): Squad
-  inviteUserToSquad(input: InviteUserToSquadInput): Squad
+  inviteUserToSquad(input: InviteUserToSquadInput): ID
 }
 
 input LoginInput {
