@@ -1,14 +1,12 @@
-type Query {
-  user(id: ID!): User
-  squad(id: ID!): Squad
-}
-
 type User {
   id: ID!
   email: String!
+  notifications: [Notification]!
   squads: [Squad]!
   createdAt: DateTime!
 }
+
+scalar DateTime
 
 type Squad {
   id: ID!
@@ -24,8 +22,6 @@ type Member {
   invitedBy: User
 }
 
-scalar DateTime
-
 type Invitation {
   inviter: User!
   invitee: User!
@@ -38,6 +34,23 @@ enum InvitationStatus {
   PENDING
   ACCEPTED
   REJECTED
+}
+
+interface Notification {
+  id: ID!
+  createdAt: DateTime!
+}
+
+type SquadInviteNotification implements Notification {
+  id: ID!
+  createdAt: DateTime!
+  invitation: Invitation!
+}
+
+type Query {
+  user(id: ID!): User
+  squad(id: ID!): Squad
+  notifications: [Notification]
 }
 
 type Mutation {
@@ -64,4 +77,8 @@ input CreateSquadInput {
 input InviteUserToSquadInput {
   userId: ID!
   squadId: ID!
+}
+
+type Subscription {
+  notificationCreated: Notification
 }

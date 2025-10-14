@@ -75,4 +75,4 @@ const Squad = new GraphQLObjectType({
   }),
 });
 
-export { Squad };
+export { Squad, Invitation };

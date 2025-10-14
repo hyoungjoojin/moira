@@ -5,6 +5,7 @@ const query = new GraphQLObjectType({
   fields: {
     user: (await import("./user.js")).default,
     squad: (await import("./squad.js")).default,
+    notifications: (await import("./notifications.js")).default,
   },
 });
 
