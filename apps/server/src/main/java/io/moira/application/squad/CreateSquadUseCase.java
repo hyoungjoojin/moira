@@ -28,7 +28,7 @@ public class CreateSquadUseCase {
   @Transactional
   public Squad execute(CreateSquadCommand command) {
     Squad squad = Squad.create(command.creator(), command.name());
-    squad = squadRepository.save(squad);
+    squadRepository.save(squad);
     logger.debug("Squad {} has been successfully created", squad.getId());
 
     Member member = Member.create(squad.getId(), command.creator(), Optional.empty());

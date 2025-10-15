@@ -24,9 +24,8 @@ public class InvitationRepositoryImpl implements InvitationRepository {
 
   @Override
   @Transactional
-  public Invitation save(Invitation invitation) {
+  public void save(Invitation invitation) {
     InvitationEntity invitationEntity = InvitationEntity.fromDomain(invitation);
-    invitationEntity = invitationJpaRepository.save(invitationEntity);
-    return invitationEntity.toDomain();
+    invitationJpaRepository.save(invitationEntity);
   }
 }

@@ -24,9 +24,8 @@ public class SquadRepositoryImpl implements SquadRepository {
 
   @Override
   @Transactional
-  public Squad save(Squad squad) {
+  public void save(Squad squad) {
     SquadEntity entity = SquadEntity.fromDomain(squad);
-    entity = squadJpaRepository.save(entity);
-    return squad;
+    squadJpaRepository.save(entity);
   }
 }

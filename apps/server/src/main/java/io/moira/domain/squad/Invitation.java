@@ -42,7 +42,7 @@ public class Invitation extends AggregateRoot<InvitationId> {
 
   public static Invitation create(UserId inviter, UserId invitee, SquadId squad) {
     Invitation invitation = new Invitation(InvitationId.create(), inviter, invitee, squad);
-    invitation.registerEvent(new InvitationCreatedEvent());
+    invitation.registerEvent(new InvitationCreatedEvent(invitee, invitation.getId()));
 
     return invitation;
   }

@@ -6,5 +6,5 @@ public interface DomainRepository<T extends AggregateRoot<I>, I> {
 
   Optional<T> findById(I id);
 
-  T save(T entity);
+  void save(T entity);
 }

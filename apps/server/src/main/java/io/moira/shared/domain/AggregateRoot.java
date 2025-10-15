@@ -1,11 +1,8 @@
 package io.moira.shared.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import org.springframework.data.domain.AfterDomainEventPublication;
-import org.springframework.data.domain.DomainEvents;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.Assert;
 
 public abstract class AggregateRoot<T> extends Entity<T> {
@@ -22,13 +19,8 @@ public abstract class AggregateRoot<T> extends Entity<T> {
     domainEvents.add(event);
   }
 
-  @DomainEvents
-  public Collection<DomainEvent> getDomainEvents() {
-    return Collections.unmodifiableList(domainEvents);
-  }
-
-  @AfterDomainEventPublication
-  protected void clearDomainEvents() {
+  public void publishEvents(ApplicationEventPublisher publisher) {
+    domainEvents.forEach(publisher::publishEvent);
     domainEvents.clear();
   }
 }

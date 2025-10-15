@@ -7,6 +7,8 @@ spring:
   jpa:
     open-in-view: false
 
+  graphql.websocket.path: /graphql
+
 server:
   servlet:
     session:

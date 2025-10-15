@@ -30,9 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   @Transactional
-  public User save(User user) {
+  public void save(User user) {
     UserEntity entity = UserEntityMapper.toEntity(user);
-    entity = userJpaRepository.save(entity);
-    return UserEntityMapper.toDomain(entity);
+    userJpaRepository.save(entity);
   }
 }

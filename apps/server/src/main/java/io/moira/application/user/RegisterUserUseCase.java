@@ -32,7 +32,7 @@ public class RegisterUserUseCase {
     String hashedPassword = passwordEncoder.encode(command.password());
 
     User user = User.create(command.email(), hashedPassword);
-    user = userRepository.save(user);
+    userRepository.save(user);
     logger.debug("User {} has been successfully created", user.getId());
 
     return user;
