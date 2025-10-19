@@ -1,6 +1,6 @@
 package io.moira.interfaces.graphql.dto;
 
-import io.moira.domain.squad.Invitation;
+import io.moira.domain.squad.invitation.Invitation;
 
 public record InvitationView(String inviterId, String inviteeId, String squadId) {
 

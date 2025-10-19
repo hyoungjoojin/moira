@@ -3,21 +3,21 @@ package io.moira.interfaces.graphql.datafetcher;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
-import io.moira.application.squad.SquadService;
-import io.moira.domain.squad.Invitation;
-import io.moira.domain.squad.InvitationId;
+import io.moira.application.squad.services.SquadService;
 import io.moira.domain.squad.SquadId;
+import io.moira.domain.squad.invitation.Invitation;
+import io.moira.domain.squad.invitation.InvitationId;
 import io.moira.interfaces.graphql.dto.InvitationView;
 import io.moira.interfaces.graphql.dto.NotificationView.SquadInviteNotificationView;
 import io.moira.interfaces.graphql.dto.SquadView;
 import java.util.List;
 
 @DgsComponent
-public class InvitationDatafetcher {
+public class InvitationDataFetcher {
 
   private final SquadService squadService;
 
-  public InvitationDatafetcher(SquadService squadService) {
+  public InvitationDataFetcher(SquadService squadService) {
     this.squadService = squadService;
   }
 

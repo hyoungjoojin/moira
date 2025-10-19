@@ -4,7 +4,7 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
-import io.moira.application.user.UserService;
+import io.moira.application.user.services.UserService;
 import io.moira.domain.user.User;
 import io.moira.interfaces.graphql.dto.UserView;
 import io.moira.interfaces.graphql.utils.DgsUtils;

@@ -1,6 +1,6 @@
 package io.moira.interfaces.graphql.dto;
 
-import io.moira.domain.squad.Member;
+import io.moira.domain.squad.member.Member;
 import java.time.OffsetDateTime;
 
 public record MemberView(String userId, OffsetDateTime joinedAt) {

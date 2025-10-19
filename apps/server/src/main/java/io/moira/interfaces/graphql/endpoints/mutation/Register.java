@@ -3,9 +3,9 @@ package io.moira.interfaces.graphql.endpoints.mutation;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
-import io.moira.application.user.RegisterUserCommand;
-import io.moira.application.user.RegisterUserUseCase;
 import io.moira.application.user.exception.UserAlreadyExistsException;
+import io.moira.application.user.services.register.RegisterUserCommand;
+import io.moira.application.user.services.register.RegisterUserUseCase;
 import io.moira.domain.user.User;
 import io.moira.interfaces.graphql.dto.UserView;
 

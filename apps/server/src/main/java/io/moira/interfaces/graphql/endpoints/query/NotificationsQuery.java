@@ -3,7 +3,7 @@ package io.moira.interfaces.graphql.endpoints.query;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.DgsTypeResolver;
-import io.moira.application.notification.NotificationService;
+import io.moira.application.notification.services.NotificationService;
 import io.moira.domain.user.UserId;
 import io.moira.interfaces.graphql.dto.NotificationView;
 import java.util.List;

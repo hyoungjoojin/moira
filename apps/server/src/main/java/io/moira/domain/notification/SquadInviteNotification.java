@@ -1,6 +1,6 @@
 package io.moira.domain.notification;
 
-import io.moira.domain.squad.InvitationId;
+import io.moira.domain.squad.invitation.InvitationId;
 import io.moira.domain.user.UserId;
 import java.time.OffsetDateTime;
 import org.springframework.util.Assert;

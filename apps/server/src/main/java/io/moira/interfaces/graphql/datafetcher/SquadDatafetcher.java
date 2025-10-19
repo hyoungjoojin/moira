@@ -3,9 +3,9 @@ package io.moira.interfaces.graphql.datafetcher;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
-import io.moira.domain.squad.Member;
 import io.moira.domain.squad.SquadId;
-import io.moira.interfaces.graphql.dataloader.MembersDataloader;
+import io.moira.domain.squad.member.Member;
+import io.moira.interfaces.graphql.dataloader.MembersDataLoader;
 import io.moira.interfaces.graphql.dto.MemberView;
 import io.moira.interfaces.graphql.dto.SquadView;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @DgsComponent
-public class SquadDatafetcher {
+public class SquadDataFetcher {
 
-  private static Logger logger = LoggerFactory.getLogger(SquadDatafetcher.class);
+  private static Logger logger = LoggerFactory.getLogger(SquadDataFetcher.class);
 
   @DgsData(parentType = "Squad", field = "members")
   public CompletableFuture<List<MemberView>> members(DgsDataFetchingEnvironment dfe) {
@@ -28,7 +28,7 @@ public class SquadDatafetcher {
     }
 
     SquadView squad = (SquadView) source;
-    DataLoader<SquadId, List<Member>> dataloader = dfe.getDataLoader(MembersDataloader.class);
+    DataLoader<SquadId, List<Member>> dataloader = dfe.getDataLoader(MembersDataLoader.class);
 
     logger.debug("Fetching members for squad {}", squad.id());
     return dataloader
