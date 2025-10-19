@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link, createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   component: RouteComponent,
 });
 
@@ -10,8 +10,8 @@ function RouteComponent() {
       <title>moira</title>
 
       <div>
-        <Link to="/auth/login">Login</Link>
-        <Link to="/auth/register">Register</Link>
+        <Link to='/auth/login'>Login</Link>
+        <Link to='/auth/register'>Register</Link>
       </div>
     </>
   );

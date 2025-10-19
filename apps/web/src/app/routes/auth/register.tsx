@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import RegisterForm from '@/features/auth/register/components/RegisterForm';
+import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/auth/register")({
+export const Route = createFileRoute('/auth/register')({
   component: RouteComponent,
 });
 
@@ -9,7 +10,9 @@ function RouteComponent() {
     <>
       <title>moira - Register</title>
 
-      <div>Register</div>
+      <div>
+        <RegisterForm />
+      </div>
     </>
   );
 }

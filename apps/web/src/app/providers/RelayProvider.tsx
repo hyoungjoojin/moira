@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { RelayEnvironmentProvider } from "react-relay";
-import { Environment, Network } from "relay-runtime";
-import moira from "@/utils/server";
+import moira from '@/utils/server';
+import { useMemo } from 'react';
+import { RelayEnvironmentProvider } from 'react-relay';
+import { Environment, Network } from 'relay-runtime';
 
 interface RelayProviderProps {
   children: React.ReactNode;
