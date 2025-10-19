@@ -58,12 +58,15 @@ dependencies {
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:mysql")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  testImplementation("org.quickperf:quick-perf-junit5")
+  testImplementation("io.github.autoparams:autoparams:11.3.0")
 }
 
 dependencyManagement {
   imports {
     mavenBom(
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:${property("netflixDgsVersion")}")
+    mavenBom("org.quickperf:quick-perf-bom:1.1.0")
   }
 }
 
