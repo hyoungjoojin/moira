@@ -1,24 +1,8 @@
 import {
   createRouter,
   RouterProvider as TanstackRouterProvider,
-  createRootRoute,
-  Outlet,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Home, NotFound } from "@/app/routes";
-
-const Root = createRootRoute({
-  component: () => {
-    return (
-      <>
-        <Outlet />
-        <TanStackRouterDevtools />
-      </>
-    );
-  },
-  notFoundComponent: NotFound,
-});
-const routeTree = Root.addChildren([Home]);
+import { routeTree } from "../routes/routeTree.gen";
 
 const router = createRouter({
   routeTree,
@@ -35,4 +19,3 @@ function RouterProvider() {
 }
 
 export default RouterProvider;
-export { Root };
