@@ -17,6 +17,11 @@ public class NotificationService {
   }
 
   @UseCase
+  public Notification getNotificationById(io.moira.domain.notification.NotificationId id) {
+    return notificationRepository.findById(id).orElseThrow();
+  }
+
+  @UseCase
   public List<Notification> getNotificationsByRecipient(UserId user) {
     return notificationRepository.findAllByRecipient(user);
   }

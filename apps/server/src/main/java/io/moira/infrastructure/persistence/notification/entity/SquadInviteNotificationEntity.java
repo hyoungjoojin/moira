@@ -21,6 +21,7 @@ public class SquadInviteNotificationEntity extends NotificationEntity {
   @JoinColumn(name = "invitation_id", nullable = false)
   private InvitationEntity invitation;
 
+  @Override
   public SquadInviteNotification toDomain() {
     NotificationId notificationId = new NotificationId(id);
     UserId userId = new UserId(user.getId());

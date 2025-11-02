@@ -1,5 +1,6 @@
 package io.moira.interfaces.graphql.dto;
 
+import io.moira.domain.notification.FriendRequestNotification;
 import io.moira.domain.notification.Notification;
 import io.moira.domain.notification.NotificationType;
 import io.moira.domain.notification.SquadInviteNotification;
@@ -17,6 +18,10 @@ public interface NotificationView {
       NotificationType type, String id, OffsetDateTime createdAt, String invitationId)
       implements NotificationView {}
 
+  public static record FriendRequestNotificationView(
+      NotificationType type, String id, OffsetDateTime createdAt, String friendshipId)
+      implements NotificationView {}
+
   public static NotificationView fromDomain(Notification notification) {
     NotificationType type = notification.getType();
     String id = notification.getId().toString();
@@ -27,6 +32,12 @@ public interface NotificationView {
         SquadInviteNotification squadInviteNotification = (SquadInviteNotification) notification;
         return new SquadInviteNotificationView(
             type, id, createdAt, squadInviteNotification.getInvitation().toString());
+
+      case FRIEND_REQUEST:
+        FriendRequestNotification friendRequestNotification =
+            (FriendRequestNotification) notification;
+        return new SquadInviteNotificationView(
+            type, id, createdAt, friendRequestNotification.getFriendshipId().toString());
 
       default:
         throw new IllegalArgumentException();

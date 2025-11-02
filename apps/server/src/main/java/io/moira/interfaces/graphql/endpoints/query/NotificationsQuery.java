@@ -32,10 +32,12 @@ public class NotificationsQuery {
 
   @DgsTypeResolver(name = "Notification")
   public String resolve(NotificationView notification) {
-    System.out.println(notification);
     switch (notification.type()) {
       case SQUAD_INVITE:
         return "SquadInviteNotification";
+
+      case FRIEND_REQUEST:
+        return "FriendRequestNotification";
 
       default:
         logger.debug("Unknown notification type {}", notification.type());

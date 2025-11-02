@@ -1,10 +1,12 @@
 package io.moira.infrastructure.persistence.notification.repository;
 
+import io.moira.domain.notification.FriendRequestNotification;
 import io.moira.domain.notification.Notification;
 import io.moira.domain.notification.NotificationId;
 import io.moira.domain.notification.NotificationRepository;
 import io.moira.domain.notification.SquadInviteNotification;
 import io.moira.domain.user.UserId;
+import io.moira.infrastructure.persistence.notification.entity.FriendRequestNotificationEntity;
 import io.moira.infrastructure.persistence.notification.entity.NotificationEntity;
 import io.moira.infrastructure.persistence.notification.entity.SquadInviteNotificationEntity;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
@@ -40,6 +42,11 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     switch (notification.getType()) {
       case SQUAD_INVITE:
         entity = SquadInviteNotificationEntity.fromDomain((SquadInviteNotification) notification);
+        break;
+
+      case FRIEND_REQUEST:
+        entity =
+            FriendRequestNotificationEntity.fromDomain((FriendRequestNotification) notification);
         break;
 
       default:

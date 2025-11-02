@@ -1,3 +1,10 @@
 package io.moira.shared.domain;
 
-public abstract class DomainEvent {}
+import org.springframework.context.ApplicationEvent;
+
+public abstract class DomainEvent extends ApplicationEvent {
+
+  public DomainEvent() {
+    super(DomainEvent.class);
+  }
+}

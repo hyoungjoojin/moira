@@ -31,6 +31,8 @@ public class SquadInviteNotification extends Notification {
     SquadInviteNotification notification =
         new SquadInviteNotification(NotificationId.create(), user, invitation);
     notification.createdAt = OffsetDateTime.now();
+    notification.registerEvent(new NotificationCreatedEvent(notification));
+
     return notification;
   }
 
