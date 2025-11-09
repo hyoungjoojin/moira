@@ -1,4 +1,4 @@
-import moira from '@/utils/server';
+import moira, { ws } from '@/utils/server';
 import { useMemo } from 'react';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { Environment, Network } from 'relay-runtime';
@@ -9,7 +9,7 @@ interface RelayProviderProps {
 
 function createEnvironment() {
   return new Environment({
-    network: Network.create(moira),
+    network: Network.create(moira, ws),
   });
 }
 

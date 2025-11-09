@@ -8,6 +8,8 @@ public class User extends AggregateRoot<UserId> {
 
   private String email;
   private String hashedPassword;
+  private String fullName;
+  private String bio;
   private OffsetDateTime createdAt;
 
   private User(UserId id, String email, String hashedPassword) {
@@ -20,15 +22,24 @@ public class User extends AggregateRoot<UserId> {
     this.hashedPassword = hashedPassword;
   }
 
-  public User(UserId id, String email, String hashedPassword, OffsetDateTime createdAt) {
-    this(id, email, hashedPassword);
-    this.createdAt = createdAt;
-  }
-
   public static User create(String email, String hashedPassword) {
     User user = new User(UserId.create(), email, hashedPassword);
     user.createdAt = OffsetDateTime.now();
     return user;
+  }
+
+  public User(
+      UserId id,
+      String email,
+      String hashedPassword,
+      String fullName,
+      String bio,
+      OffsetDateTime createdAt) {
+    this(id, email, hashedPassword);
+
+    this.fullName = fullName;
+    this.bio = bio;
+    this.createdAt = createdAt;
   }
 
   public String getUsername() {
@@ -41,6 +52,14 @@ public class User extends AggregateRoot<UserId> {
 
   public String getHashedPassword() {
     return hashedPassword;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public String getBio() {
+    return bio;
   }
 
   public OffsetDateTime getCreatedAt() {

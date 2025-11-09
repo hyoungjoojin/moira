@@ -4,6 +4,7 @@ import io.moira.domain.user.User;
 import io.moira.domain.user.UserId;
 import io.moira.domain.user.UserRepository;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,11 @@ public class UserRepositoryImpl implements UserRepository {
 
   public UserRepositoryImpl(UserJpaRepository userJpaRepository) {
     this.userJpaRepository = userJpaRepository;
+  }
+
+  @Override
+  public List<User> findAll() {
+    return userJpaRepository.findAll().stream().map(UserEntity::toDomain).toList();
   }
 
   @Override

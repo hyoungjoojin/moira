@@ -9,13 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../../src/app/routes/__root'
-import { Route as IndexRouteImport } from './../../src/app/routes/index'
+import { Route as HomeRouteRouteImport } from './../../src/app/routes/_home/route'
 import { Route as AuthRegisterRouteImport } from './../../src/app/routes/auth/register'
 import { Route as AuthLoginRouteImport } from './../../src/app/routes/auth/login'
+import { Route as HomePrevRouteImport } from './../../src/app/routes/_home/prev'
+import { Route as HomeSquadsIndexRouteImport } from './../../src/app/routes/_home/squads/index'
+import { Route as HomeMenuIndexRouteImport } from './../../src/app/routes/_home/menu/index'
+import { Route as HomeFriendsIndexRouteImport } from './../../src/app/routes/_home/friends/index'
+import { Route as HomeFriendsAddRouteImport } from './../../src/app/routes/_home/friends/add'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const HomeRouteRoute = HomeRouteRouteImport.update({
+  id: '/_home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -28,44 +32,105 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomePrevRoute = HomePrevRouteImport.update({
+  id: '/prev',
+  path: '/prev',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeSquadsIndexRoute = HomeSquadsIndexRouteImport.update({
+  id: '/squads/',
+  path: '/squads/',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeMenuIndexRoute = HomeMenuIndexRouteImport.update({
+  id: '/menu/',
+  path: '/menu/',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeFriendsIndexRoute = HomeFriendsIndexRouteImport.update({
+  id: '/friends/',
+  path: '/friends/',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeFriendsAddRoute = HomeFriendsAddRouteImport.update({
+  id: '/friends/add',
+  path: '/friends/add',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/friends/add': typeof HomeFriendsAddRoute
+  '/friends': typeof HomeFriendsIndexRoute
+  '/menu': typeof HomeMenuIndexRoute
+  '/squads': typeof HomeSquadsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/friends/add': typeof HomeFriendsAddRoute
+  '/friends': typeof HomeFriendsIndexRoute
+  '/menu': typeof HomeMenuIndexRoute
+  '/squads': typeof HomeSquadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_home': typeof HomeRouteRouteWithChildren
+  '/_home/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/_home/friends/add': typeof HomeFriendsAddRoute
+  '/_home/friends/': typeof HomeFriendsIndexRoute
+  '/_home/menu/': typeof HomeMenuIndexRoute
+  '/_home/squads/': typeof HomeSquadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login' | '/auth/register'
+  fullPaths:
+    | '/prev'
+    | '/auth/login'
+    | '/auth/register'
+    | '/friends/add'
+    | '/friends'
+    | '/menu'
+    | '/squads'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login' | '/auth/register'
-  id: '__root__' | '/' | '/auth/login' | '/auth/register'
+  to:
+    | '/prev'
+    | '/auth/login'
+    | '/auth/register'
+    | '/friends/add'
+    | '/friends'
+    | '/menu'
+    | '/squads'
+  id:
+    | '__root__'
+    | '/_home'
+    | '/_home/prev'
+    | '/auth/login'
+    | '/auth/register'
+    | '/_home/friends/add'
+    | '/_home/friends/'
+    | '/_home/menu/'
+    | '/_home/squads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  HomeRouteRoute: typeof HomeRouteRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/_home': {
+      id: '/_home'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof HomeRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -82,11 +147,66 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_home/prev': {
+      id: '/_home/prev'
+      path: '/prev'
+      fullPath: '/prev'
+      preLoaderRoute: typeof HomePrevRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/squads/': {
+      id: '/_home/squads/'
+      path: '/squads'
+      fullPath: '/squads'
+      preLoaderRoute: typeof HomeSquadsIndexRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/menu/': {
+      id: '/_home/menu/'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof HomeMenuIndexRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/friends/': {
+      id: '/_home/friends/'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof HomeFriendsIndexRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/friends/add': {
+      id: '/_home/friends/add'
+      path: '/friends/add'
+      fullPath: '/friends/add'
+      preLoaderRoute: typeof HomeFriendsAddRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
   }
 }
 
+interface HomeRouteRouteChildren {
+  HomePrevRoute: typeof HomePrevRoute
+  HomeFriendsAddRoute: typeof HomeFriendsAddRoute
+  HomeFriendsIndexRoute: typeof HomeFriendsIndexRoute
+  HomeMenuIndexRoute: typeof HomeMenuIndexRoute
+  HomeSquadsIndexRoute: typeof HomeSquadsIndexRoute
+}
+
+const HomeRouteRouteChildren: HomeRouteRouteChildren = {
+  HomePrevRoute: HomePrevRoute,
+  HomeFriendsAddRoute: HomeFriendsAddRoute,
+  HomeFriendsIndexRoute: HomeFriendsIndexRoute,
+  HomeMenuIndexRoute: HomeMenuIndexRoute,
+  HomeSquadsIndexRoute: HomeSquadsIndexRoute,
+}
+
+const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
+  HomeRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  HomeRouteRoute: HomeRouteRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
 }

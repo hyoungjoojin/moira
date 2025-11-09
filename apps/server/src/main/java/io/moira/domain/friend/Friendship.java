@@ -76,4 +76,17 @@ public class Friendship extends AggregateRoot<FriendshipId> {
   public Optional<OffsetDateTime> getRejectedAt() {
     return rejectedAt;
   }
+
+  public void updateStatus(FriendshipStatus newStatus) {
+    Assert.notNull(newStatus, "Status must not be null");
+
+    this.status = newStatus;
+    if (newStatus == FriendshipStatus.ACCEPTED) {
+      this.acceptedAt = Optional.of(OffsetDateTime.now());
+      this.rejectedAt = Optional.empty();
+    } else if (newStatus == FriendshipStatus.REJECTED) {
+      this.rejectedAt = Optional.of(OffsetDateTime.now());
+      this.acceptedAt = Optional.empty();
+    }
+  }
 }

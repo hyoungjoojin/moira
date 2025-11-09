@@ -2,10 +2,10 @@ import LoginForm from '@/features/auth/login/components/LoginForm';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/auth/login')({
-  component: RouteComponent,
+  component: Login,
 });
 
-function RouteComponent() {
+function Login() {
   return (
     <>
       <title>moira - Login</title>

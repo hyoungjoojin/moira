@@ -23,6 +23,12 @@ public class UserEntity {
   @Column(name = "password", nullable = false)
   private String password;
 
+  @Column(name = "full_name")
+  private String fullName;
+
+  @Column(name = "bio", length = 1024)
+  private String bio;
+
   @Column(name = "created_at")
   private OffsetDateTime createdAt;
 
@@ -68,7 +74,7 @@ public class UserEntity {
 
   public User toDomain() {
     UserId id = new UserId(this.id);
-    return new User(id, email, password, createdAt);
+    return new User(id, email, password, fullName, bio, createdAt);
   }
 
   public static UserEntity fromDomain(User user) {
@@ -76,6 +82,8 @@ public class UserEntity {
     entity.id = user.getId().value();
     entity.email = user.getEmail();
     entity.password = user.getHashedPassword();
+    entity.fullName = user.getFullName();
+    entity.bio = user.getBio();
     entity.createdAt = user.getCreatedAt();
     return entity;
   }

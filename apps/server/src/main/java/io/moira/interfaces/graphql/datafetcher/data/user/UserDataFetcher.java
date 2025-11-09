@@ -1,4 +1,4 @@
-package io.moira.interfaces.graphql.datafetcher;
+package io.moira.interfaces.graphql.datafetcher.data.user;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;

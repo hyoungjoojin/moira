@@ -3,11 +3,14 @@ package io.moira.infrastructure.persistence.friend.repository;
 import io.moira.domain.friend.Friendship;
 import io.moira.domain.friend.FriendshipId;
 import io.moira.domain.friend.FriendshipRepository;
+import io.moira.domain.friend.FriendshipStatus;
 import io.moira.domain.user.UserId;
 import io.moira.infrastructure.persistence.friend.entity.FriendshipEntity;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
 import io.moira.infrastructure.persistence.user.repository.UserJpaRepository;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,6 +28,18 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
   @Override
   public Optional<Friendship> findById(FriendshipId id) {
     return friendshipJpaRepository.findById(id.value()).map(FriendshipEntity::toDomain);
+  }
+
+  @Override
+  public Page<Friendship> findAllAcceptedByUser(UserId userId, String cursor, int size) {
+    UserEntity user = userJpaRepository.getReferenceById(userId.value());
+    PageRequest pageRequest = PageRequest.of(0, size);
+
+    Page<FriendshipEntity> result =
+        friendshipJpaRepository.findByUserAndStatus(
+            user, FriendshipStatus.ACCEPTED, cursor, pageRequest);
+
+    return result.map(FriendshipEntity::toDomain);
   }
 
   @Override

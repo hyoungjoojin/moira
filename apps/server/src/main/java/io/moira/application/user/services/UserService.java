@@ -36,6 +36,12 @@ public class UserService {
 
   @UseCase
   @Transactional(readOnly = true)
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
+  }
+
+  @UseCase
+  @Transactional(readOnly = true)
   public List<User> getUsersByIds(List<UserId> ids) {
     return ids.stream().map(id -> userRepository.findById(id).orElseThrow()).toList();
   }

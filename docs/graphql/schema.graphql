@@ -1,8 +1,24 @@
 type User {
   id: ID!
   email: String!
+  fullName: String
+  bio: String
+  friends(first: Int, after: String): FriendConnection!
   squads: [Squad]!
   createdAt: DateTime!
+}
+
+type FriendConnection {
+  totalCount: Int!
+  edges: [FriendEdge]!
+  nodes: [User!]!
+  pageInfo: PageInfo!
+}
+
+type FriendEdge {
+  node: User!
+  friendsSince: DateTime!
+  cursor: String!
 }
 
 scalar DateTime
@@ -12,6 +28,7 @@ type Squad {
   name: String!
   members: [Member]!
   invitations: [Invitation]!
+  messages: MessageConnection!
   createdAt: DateTime!
 }
 
@@ -35,6 +52,19 @@ enum InvitationStatus {
   REJECTED
 }
 
+type MessageConnection {
+  totalCount: Int!
+  nodes: [Message!]!
+  pageInfo: PageInfo!
+}
+
+type Message {
+  id: ID!
+  content: String!
+  sender: User!
+  timestamp: DateTime!
+}
+
 interface Notification {
   id: ID!
   createdAt: DateTime!
@@ -46,10 +76,45 @@ type SquadInviteNotification implements Notification {
   invitation: Invitation!
 }
 
+type FriendRequestNotification implements Notification {
+  id: ID!
+  createdAt: DateTime!
+  requester: User!
+}
+
+type PageInfo {
+  startCursor: ID
+  endCursor: ID
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type Query {
+  me: User!
   user(id: ID!): User
+  users: [User]!
   squad(id: ID!): Squad
   notifications: [Notification]
+  search(after: ID, first: ID, query: String!, type: SearchType): SearchResultItemConnection!
+}
+
+type SearchResultItemConnection {
+  totalCount: Int!
+  edges: [SearchResultItemEdge]!
+  nodes: [SearchResultItem!]!
+  pageInfo: PageInfo!
+}
+
+type SearchResultItemEdge {
+  node: SearchResultItem!
+  cursor: ID!
+}
+
+union SearchResultItem = User | Squad
+
+enum SearchType {
+  USER
+  SQUAD
 }
 
 type Mutation {
@@ -57,6 +122,9 @@ type Mutation {
   register(input: RegisterUserInput): User
   createSquad(input: CreateSquadInput): Squad
   inviteUserToSquad(input: InviteUserToSquadInput): ID
+  sendFriendRequest(input: SendFriendRequestInput): ID
+  acceptFriendRequest(input: AcceptFriendRequestInput): ID
+  rejectFriendRequest(input: RejectFriendRequestInput): ID
 }
 
 input LoginInput {
@@ -78,6 +146,18 @@ input InviteUserToSquadInput {
   squadId: ID!
 }
 
+input SendFriendRequestInput {
+  friendId: ID!
+}
+
+input AcceptFriendRequestInput {
+  friendId: ID!
+}
+
+input RejectFriendRequestInput {
+  friendId: ID!
+}
+
 type Subscription {
-  notificationCreated: Notification
+  newNotification: Notification
 }
