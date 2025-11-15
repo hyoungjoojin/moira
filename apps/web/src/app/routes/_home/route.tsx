@@ -1,11 +1,18 @@
 import HomeLayout from '@/components/layouts/home';
-import { Outlet, createFileRoute } from '@tanstack/react-router';
+import { useAuth } from '@/store/auth';
+import { Outlet, createFileRoute, useNavigate } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_home')({
-  component: RouteComponent,
+  component: Home,
 });
 
-function RouteComponent() {
+function Home() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  if (!user) {
+    navigate({ to: '/auth/login' });
+  }
+
   return (
     <HomeLayout>
       <Outlet />

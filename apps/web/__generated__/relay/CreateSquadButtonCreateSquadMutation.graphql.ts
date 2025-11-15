@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<57b254b291ae03371bb5c42575452540>>
+ * @generated SignedSource<<4584de307c87afdb80fe16a41d3c0160>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,11 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type CreateSquadInput = {
-  name: string;
-};
-export type CreateSquadButtonCreateSquadMutation$variables = {
-  input?: CreateSquadInput | null | undefined;
-};
+export type CreateSquadButtonCreateSquadMutation$variables = Record<PropertyKey, never>;
 export type CreateSquadButtonCreateSquadMutation$data = {
   readonly createSquad: {
     readonly id: string;
+    readonly name: string;
   } | null | undefined;
 };
 export type CreateSquadButtonCreateSquadMutation = {
@@ -28,19 +24,14 @@ export type CreateSquadButtonCreateSquadMutation = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "input"
-  }
-],
-v1 = [
-  {
     "alias": null,
     "args": [
       {
-        "kind": "Variable",
+        "kind": "Literal",
         "name": "input",
-        "variableName": "input"
+        "value": {
+          "name": "New Squad"
+        }
       }
     ],
     "concreteType": "Squad",
@@ -54,39 +45,46 @@ v1 = [
         "kind": "ScalarField",
         "name": "id",
         "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "name",
+        "storageKey": null
       }
     ],
-    "storageKey": null
+    "storageKey": "createSquad(input:{\"name\":\"New Squad\"})"
   }
 ];
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "CreateSquadButtonCreateSquadMutation",
-    "selections": (v1/*: any*/),
+    "selections": (v0/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
     "name": "CreateSquadButtonCreateSquadMutation",
-    "selections": (v1/*: any*/)
+    "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "49ad37646a75cb1cf9a02eeb2f0ec412",
+    "cacheID": "9cb248c70e8d2e85e9d4ce4d458afba9",
     "id": null,
     "metadata": {},
     "name": "CreateSquadButtonCreateSquadMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateSquadButtonCreateSquadMutation(\n  $input: CreateSquadInput\n) {\n  createSquad(input: $input) {\n    id\n  }\n}\n"
+    "text": "mutation CreateSquadButtonCreateSquadMutation {\n  createSquad(input: {name: \"New Squad\"}) {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "975e7b5356463bb8d8523f16422fef45";
+(node as any).hash = "fe2351e14941d2b11042a2c8f8d01036";
 
 export default node;

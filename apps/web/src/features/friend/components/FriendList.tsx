@@ -25,6 +25,13 @@ function FriendList() {
 
   return (
     <>
+      <div className='flex items-center justify-between'>
+        <span className='text-sm font-bold'>Friends</span>
+        <span>
+          <Button variant='icon' icon='filter' />
+        </span>
+      </div>
+
       {friends.nodes.map((node, index) => (
         <FriendListItem key={index} {...node} />
       ))}

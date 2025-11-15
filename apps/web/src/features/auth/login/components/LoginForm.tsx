@@ -1,4 +1,7 @@
-import Button from '../../../../components/ui/button';
+import Button from '@/components/ui/button';
+import { useAuthActions } from '@/store/auth';
+import logger from '@/utils/logger';
+import type { LoginFormLoginUserMutation } from '@generated/relay/LoginFormLoginUserMutation.graphql';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
@@ -14,6 +17,8 @@ const schema = z.object({
 type LoginInput = z.infer<typeof schema>;
 
 function LoginForm() {
+  const { setUser } = useAuthActions();
+
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -22,18 +27,20 @@ function LoginForm() {
   } = useForm<LoginInput>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'fuck',
+      password: 'fuck',
     },
   });
 
-  const [loginUser, isPending] = useMutation(graphql`
-    mutation LoginFormLoginUserMutation($input: LoginInput) {
-      login(input: $input) {
-        id
+  const [loginUser, isPending] = useMutation<LoginFormLoginUserMutation>(
+    graphql`
+      mutation LoginFormLoginUserMutation($input: LoginInput) {
+        login(input: $input) {
+          id
+        }
       }
-    }
-  `);
+    `,
+  );
 
   const navigate = useNavigate({ from: '/auth/login' });
 
@@ -46,7 +53,14 @@ function LoginForm() {
         },
       },
       onCompleted: (response) => {
-        console.log(response);
+        if (!response.login) {
+          logger.error('Response does not contain login data');
+          return;
+        }
+
+        setUser({
+          id: response.login.id,
+        });
         navigate({ to: '/friends' });
       },
       onError: (error) => {

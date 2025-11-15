@@ -1,33 +1,44 @@
+import Icon, { type IconType } from '@/components/ui/icon';
+import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import React from 'react';
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon?: React.ReactNode;
-  className?: string;
-}
+type InputProps = React.ComponentProps<'input'> & {
+  icon?: IconType;
+  pending?: boolean;
+};
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, icon, ...props }, ref) => {
-    return (
-      <div className={cn('relative w-full', className)}>
-        {icon && (
-          <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-            {icon}
-          </div>
+function Input({
+  className,
+  type,
+  icon,
+  pending = false,
+  ...props
+}: InputProps) {
+  return (
+    <div
+      className={cn(
+        'flex items-center rounded-md bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+        'py-2 px-2',
+      )}
+    >
+      {icon && (pending ? <Spinner /> : <Icon icon={icon} />)}
+      <input
+        type={type}
+        data-slot='input'
+        autoFocus
+        disabled={pending}
+        className={cn(
+          'flex w-full px-3 py-1',
+          'placeholder:text-foreground-muted',
+          'focus:ring-0 focus:outline-none focus-visible:ring-0',
+          className,
         )}
-        <input
-          ref={ref}
-          className={cn(
-            'w-full px-3 py-2 border rounded focus:outline-none focus:ring',
-            icon ? 'pl-10' : '',
-          )}
-          {...props}
-        />
-      </div>
-    );
-  },
-);
+        {...props}
+      />
+    </div>
+  );
+}
 Input.displayName = 'Input';
 
 export default Input;

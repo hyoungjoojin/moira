@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './../../src/app/routes/__root'
 import { Route as HomeRouteRouteImport } from './../../src/app/routes/_home/route'
 import { Route as AuthRegisterRouteImport } from './../../src/app/routes/auth/register'
 import { Route as AuthLoginRouteImport } from './../../src/app/routes/auth/login'
-import { Route as HomePrevRouteImport } from './../../src/app/routes/_home/prev'
 import { Route as HomeSquadsIndexRouteImport } from './../../src/app/routes/_home/squads/index'
+import { Route as HomeNotificationsIndexRouteImport } from './../../src/app/routes/_home/notifications/index'
 import { Route as HomeMenuIndexRouteImport } from './../../src/app/routes/_home/menu/index'
 import { Route as HomeFriendsIndexRouteImport } from './../../src/app/routes/_home/friends/index'
+import { Route as HomeSquadsSquadIdRouteImport } from './../../src/app/routes/_home/squads/$squadId'
 import { Route as HomeFriendsAddRouteImport } from './../../src/app/routes/_home/friends/add'
+import { Route as HomeFriendsIdRouteImport } from './../../src/app/routes/_home/friends/$id'
 
 const HomeRouteRoute = HomeRouteRouteImport.update({
   id: '/_home',
@@ -32,14 +34,14 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomePrevRoute = HomePrevRouteImport.update({
-  id: '/prev',
-  path: '/prev',
-  getParentRoute: () => HomeRouteRoute,
-} as any)
 const HomeSquadsIndexRoute = HomeSquadsIndexRouteImport.update({
   id: '/squads/',
   path: '/squads/',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
+const HomeNotificationsIndexRoute = HomeNotificationsIndexRouteImport.update({
+  id: '/notifications/',
+  path: '/notifications/',
   getParentRoute: () => HomeRouteRoute,
 } as any)
 const HomeMenuIndexRoute = HomeMenuIndexRouteImport.update({
@@ -52,69 +54,91 @@ const HomeFriendsIndexRoute = HomeFriendsIndexRouteImport.update({
   path: '/friends/',
   getParentRoute: () => HomeRouteRoute,
 } as any)
+const HomeSquadsSquadIdRoute = HomeSquadsSquadIdRouteImport.update({
+  id: '/squads/$squadId',
+  path: '/squads/$squadId',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
 const HomeFriendsAddRoute = HomeFriendsAddRouteImport.update({
   id: '/friends/add',
   path: '/friends/add',
   getParentRoute: () => HomeRouteRoute,
 } as any)
+const HomeFriendsIdRoute = HomeFriendsIdRouteImport.update({
+  id: '/friends/$id',
+  path: '/friends/$id',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/friends/$id': typeof HomeFriendsIdRoute
   '/friends/add': typeof HomeFriendsAddRoute
+  '/squads/$squadId': typeof HomeSquadsSquadIdRoute
   '/friends': typeof HomeFriendsIndexRoute
   '/menu': typeof HomeMenuIndexRoute
+  '/notifications': typeof HomeNotificationsIndexRoute
   '/squads': typeof HomeSquadsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/friends/$id': typeof HomeFriendsIdRoute
   '/friends/add': typeof HomeFriendsAddRoute
+  '/squads/$squadId': typeof HomeSquadsSquadIdRoute
   '/friends': typeof HomeFriendsIndexRoute
   '/menu': typeof HomeMenuIndexRoute
+  '/notifications': typeof HomeNotificationsIndexRoute
   '/squads': typeof HomeSquadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_home': typeof HomeRouteRouteWithChildren
-  '/_home/prev': typeof HomePrevRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/_home/friends/$id': typeof HomeFriendsIdRoute
   '/_home/friends/add': typeof HomeFriendsAddRoute
+  '/_home/squads/$squadId': typeof HomeSquadsSquadIdRoute
   '/_home/friends/': typeof HomeFriendsIndexRoute
   '/_home/menu/': typeof HomeMenuIndexRoute
+  '/_home/notifications/': typeof HomeNotificationsIndexRoute
   '/_home/squads/': typeof HomeSquadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/prev'
     | '/auth/login'
     | '/auth/register'
+    | '/friends/$id'
     | '/friends/add'
+    | '/squads/$squadId'
     | '/friends'
     | '/menu'
+    | '/notifications'
     | '/squads'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/prev'
     | '/auth/login'
     | '/auth/register'
+    | '/friends/$id'
     | '/friends/add'
+    | '/squads/$squadId'
     | '/friends'
     | '/menu'
+    | '/notifications'
     | '/squads'
   id:
     | '__root__'
     | '/_home'
-    | '/_home/prev'
     | '/auth/login'
     | '/auth/register'
+    | '/_home/friends/$id'
     | '/_home/friends/add'
+    | '/_home/squads/$squadId'
     | '/_home/friends/'
     | '/_home/menu/'
+    | '/_home/notifications/'
     | '/_home/squads/'
   fileRoutesById: FileRoutesById
 }
@@ -147,18 +171,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_home/prev': {
-      id: '/_home/prev'
-      path: '/prev'
-      fullPath: '/prev'
-      preLoaderRoute: typeof HomePrevRouteImport
-      parentRoute: typeof HomeRouteRoute
-    }
     '/_home/squads/': {
       id: '/_home/squads/'
       path: '/squads'
       fullPath: '/squads'
       preLoaderRoute: typeof HomeSquadsIndexRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
+    '/_home/notifications/': {
+      id: '/_home/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof HomeNotificationsIndexRouteImport
       parentRoute: typeof HomeRouteRoute
     }
     '/_home/menu/': {
@@ -175,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeFriendsIndexRouteImport
       parentRoute: typeof HomeRouteRoute
     }
+    '/_home/squads/$squadId': {
+      id: '/_home/squads/$squadId'
+      path: '/squads/$squadId'
+      fullPath: '/squads/$squadId'
+      preLoaderRoute: typeof HomeSquadsSquadIdRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
     '/_home/friends/add': {
       id: '/_home/friends/add'
       path: '/friends/add'
@@ -182,22 +213,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeFriendsAddRouteImport
       parentRoute: typeof HomeRouteRoute
     }
+    '/_home/friends/$id': {
+      id: '/_home/friends/$id'
+      path: '/friends/$id'
+      fullPath: '/friends/$id'
+      preLoaderRoute: typeof HomeFriendsIdRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
   }
 }
 
 interface HomeRouteRouteChildren {
-  HomePrevRoute: typeof HomePrevRoute
+  HomeFriendsIdRoute: typeof HomeFriendsIdRoute
   HomeFriendsAddRoute: typeof HomeFriendsAddRoute
+  HomeSquadsSquadIdRoute: typeof HomeSquadsSquadIdRoute
   HomeFriendsIndexRoute: typeof HomeFriendsIndexRoute
   HomeMenuIndexRoute: typeof HomeMenuIndexRoute
+  HomeNotificationsIndexRoute: typeof HomeNotificationsIndexRoute
   HomeSquadsIndexRoute: typeof HomeSquadsIndexRoute
 }
 
 const HomeRouteRouteChildren: HomeRouteRouteChildren = {
-  HomePrevRoute: HomePrevRoute,
+  HomeFriendsIdRoute: HomeFriendsIdRoute,
   HomeFriendsAddRoute: HomeFriendsAddRoute,
+  HomeSquadsSquadIdRoute: HomeSquadsSquadIdRoute,
   HomeFriendsIndexRoute: HomeFriendsIndexRoute,
   HomeMenuIndexRoute: HomeMenuIndexRoute,
+  HomeNotificationsIndexRoute: HomeNotificationsIndexRoute,
   HomeSquadsIndexRoute: HomeSquadsIndexRoute,
 }
 

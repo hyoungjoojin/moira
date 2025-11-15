@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f71fd3e8dc667e9f9fe1f8cb9e2a21b2>>
+ * @generated SignedSource<<cb25884bae6193916ac84106a3eb5ef1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,11 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type FriendListQuery$variables = {
+export type FriendSidebarFriendsQuery$variables = {
   after?: string | null | undefined;
   first?: number | null | undefined;
 };
-export type FriendListQuery$data = {
+export type FriendSidebarFriendsQuery$data = {
   readonly me: {
     readonly friends: {
       readonly nodes: ReadonlyArray<{
@@ -23,9 +23,9 @@ export type FriendListQuery$data = {
     };
   };
 };
-export type FriendListQuery = {
-  response: FriendListQuery$data;
-  variables: FriendListQuery$variables;
+export type FriendSidebarFriendsQuery = {
+  response: FriendSidebarFriendsQuery$data;
+  variables: FriendSidebarFriendsQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -35,7 +35,7 @@ var v0 = {
   "name": "after"
 },
 v1 = {
-  "defaultValue": 10,
+  "defaultValue": 20,
   "kind": "LocalArgument",
   "name": "first"
 },
@@ -95,7 +95,7 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "FriendListQuery",
+    "name": "FriendSidebarFriendsQuery",
     "selections": [
       {
         "alias": null,
@@ -120,7 +120,7 @@ return {
       (v0/*: any*/)
     ],
     "kind": "Operation",
-    "name": "FriendListQuery",
+    "name": "FriendSidebarFriendsQuery",
     "selections": [
       {
         "alias": null,
@@ -138,16 +138,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "766f682b00253e27f6e00a69bd833024",
+    "cacheID": "798dc4246bda95e100d104a4cca01cc3",
     "id": null,
     "metadata": {},
-    "name": "FriendListQuery",
+    "name": "FriendSidebarFriendsQuery",
     "operationKind": "query",
-    "text": "query FriendListQuery(\n  $first: Int = 10\n  $after: String\n) {\n  me {\n    friends(first: $first, after: $after) {\n      nodes {\n        id\n        email\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query FriendSidebarFriendsQuery(\n  $first: Int = 20\n  $after: String\n) {\n  me {\n    friends(first: $first, after: $after) {\n      nodes {\n        id\n        email\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d9135904e5860f6ca8050d745af6c17e";
+(node as any).hash = "a33ec55d84fb1f4087cf2bff3951b3cb";
 
 export default node;

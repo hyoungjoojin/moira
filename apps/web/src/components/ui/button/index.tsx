@@ -1,44 +1,59 @@
+import Icon, { type IconType } from '@/components/ui/icon';
 import { cn } from '@/utils/cn';
 import React from 'react';
 
-type ButtonVariant = 'primary' | 'icon';
+type ButtonVariant = 'primary' | 'icon' | 'outline' | 'ghost';
 
 type ButtonProps = React.ComponentProps<'button'> & {
   variant?: ButtonVariant;
-  icon?: React.ReactNode;
+  icon?: IconType;
+  invert?: boolean;
   children?: React.ReactNode;
-  isPending?: boolean;
   className?: string;
 };
 
-function getButtonClasses(variant: ButtonVariant) {
-  const defaultClasses =
-    'relative p-2 rounded-full hover:bg-slate-100 hover:cursor-pointer ';
+function getButtonClasses(variant: ButtonVariant, invert?: boolean) {
+  const defaultClasses = cn(
+    'relative p-2 rounded-full',
+    'flex items-center justify-center gap-2',
+    invert ? 'text-background' : 'text-background-inverted',
+    invert
+      ? 'hover:bg-background/10 hover:cursor-pointer'
+      : 'hover:bg-background-inverted/10 hover:cursor-pointer',
+  );
 
   switch (variant) {
     case 'primary':
-      return defaultClasses + 'bg-blue-600 text-white hover:bg-blue-700';
+      return defaultClasses;
     case 'icon':
-      return defaultClasses + '';
+      return defaultClasses;
+    case 'outline':
+      return cn(
+        defaultClasses,
+        'w-full shadow-sm',
+        'px-4 py-2',
+        'rounded-md',
+        'text-sm font-medium',
+      );
+    case 'ghost':
+      return cn(defaultClasses, 'gap-1', 'text-sm');
   }
 }
 
 function Button({
   variant = 'primary',
+  invert,
   icon,
   children,
-  isPending = false,
   className,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={cn(getButtonClasses(variant), className)}
-      disabled={isPending}
+      className={cn(getButtonClasses(variant, invert), className)}
       {...props}
     >
-      {isPending && <span>Wait</span>}
-      {icon}
+      {icon && <Icon icon={icon} />}
       {children}
     </button>
   );

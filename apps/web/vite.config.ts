@@ -12,11 +12,9 @@ const dirname =
     ? __dirname
     : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   server: {
     port: 3000,
-    allowedHosts: ['hyoungjoo-3000.run.goorm.io'],
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8080/graphql',
