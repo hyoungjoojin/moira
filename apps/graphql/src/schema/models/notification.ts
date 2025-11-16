@@ -6,7 +6,7 @@ import {
 } from "graphql";
 import { DateTime } from "../scalars/datetime.js";
 import { Invitation } from "./squad.js";
-import { User } from "./user.js";
+import User from "./user/index.js";
 
 const Notification = new GraphQLInterfaceType({
   name: "Notification",

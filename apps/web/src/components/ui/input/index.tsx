@@ -25,7 +25,6 @@ function Input({
       {icon && (pending ? <Spinner /> : <Icon icon={icon} />)}
       <input
         type={type}
-        data-slot='input'
         autoFocus
         disabled={pending}
         className={cn(

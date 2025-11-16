@@ -8,8 +8,8 @@ import org.springframework.util.Assert;
 
 public class Friendship extends AggregateRoot<FriendshipId> {
 
-  private UserId userA;
-  private UserId userB;
+  private UserId leftUser;
+  private UserId rightUser;
 
   private FriendshipStatus status;
 
@@ -17,14 +17,14 @@ public class Friendship extends AggregateRoot<FriendshipId> {
   private Optional<OffsetDateTime> acceptedAt;
   private Optional<OffsetDateTime> rejectedAt;
 
-  private Friendship(FriendshipId id, UserId userA, UserId userB) {
+  private Friendship(FriendshipId id, UserId leftUser, UserId rightUser) {
     super(id);
 
-    Assert.notNull(userA, "User A must not be null");
-    Assert.notNull(userB, "User B must not be null");
+    Assert.notNull(leftUser, "Left user ID must not be null");
+    Assert.notNull(rightUser, "Right user ID must not be null");
 
-    this.userA = userA;
-    this.userB = userB;
+    this.leftUser = leftUser;
+    this.rightUser = rightUser;
   }
 
   public Friendship(
@@ -44,7 +44,7 @@ public class Friendship extends AggregateRoot<FriendshipId> {
 
   public static Friendship create(UserId userA, UserId userB) {
     Friendship friendship = new Friendship(FriendshipId.create(), userA, userB);
-    friendship.status = FriendshipStatus.PENDING;
+    friendship.status = FriendshipStatus.REQUEST_PENDING;
     friendship.createdAt = OffsetDateTime.now();
     friendship.acceptedAt = Optional.empty();
     friendship.rejectedAt = Optional.empty();
@@ -53,12 +53,21 @@ public class Friendship extends AggregateRoot<FriendshipId> {
     return friendship;
   }
 
-  public UserId getUserA() {
-    return userA;
+  public static Friendship createNonFrienship(UserId userA, UserId userB) {
+    Friendship friendship = new Friendship(FriendshipId.create(), userA, userB);
+    friendship.status = FriendshipStatus.NOT_FRIENDS;
+    friendship.createdAt = OffsetDateTime.now();
+    friendship.acceptedAt = Optional.empty();
+    friendship.rejectedAt = Optional.empty();
+    return friendship;
   }
 
-  public UserId getUserB() {
-    return userB;
+  public UserId getLeftUser() {
+    return leftUser;
+  }
+
+  public UserId getRightUser() {
+    return rightUser;
   }
 
   public FriendshipStatus getStatus() {
@@ -77,14 +86,23 @@ public class Friendship extends AggregateRoot<FriendshipId> {
     return rejectedAt;
   }
 
+  public OffsetDateTime getFriendsSince() {
+    if (status == FriendshipStatus.FRIENDS) {
+      return acceptedAt.orElseThrow(
+          () -> new IllegalStateException("AcceptedAt must be present when status is FRIENDS"));
+    }
+
+    return null;
+  }
+
   public void updateStatus(FriendshipStatus newStatus) {
     Assert.notNull(newStatus, "Status must not be null");
 
     this.status = newStatus;
-    if (newStatus == FriendshipStatus.ACCEPTED) {
+    if (newStatus == FriendshipStatus.FRIENDS) {
       this.acceptedAt = Optional.of(OffsetDateTime.now());
       this.rejectedAt = Optional.empty();
-    } else if (newStatus == FriendshipStatus.REJECTED) {
+    } else if (newStatus == FriendshipStatus.NOT_FRIENDS) {
       this.rejectedAt = Optional.of(OffsetDateTime.now());
       this.acceptedAt = Optional.empty();
     }

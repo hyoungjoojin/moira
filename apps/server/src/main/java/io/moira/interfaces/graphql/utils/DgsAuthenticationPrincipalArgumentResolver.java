@@ -17,13 +17,25 @@ public class DgsAuthenticationPrincipalArgumentResolver implements ArgumentResol
 
   @Override
   public Object resolveArgument(MethodParameter parameter, DataFetchingEnvironment dfe) {
+    CustomDgsContext customDgsContext = DgsContext.getCustomContext(dfe);
+    if (customDgsContext.getAuthenticationPrincipal() != null) {
+      return customDgsContext.getAuthenticationPrincipal();
+    }
+
     DgsWebMvcRequestData dgsWebMvcRequestData =
         (DgsWebMvcRequestData) DgsContext.getRequestData(dfe);
     NativeWebRequest request =
         dgsWebMvcRequestData == null
             ? null
             : (NativeWebRequest) dgsWebMvcRequestData.getWebRequest();
-    return authenticationPrincipalArgumentResolver.resolveArgument(parameter, null, request, null);
+    Object authenticationPrincipal =
+        authenticationPrincipalArgumentResolver.resolveArgument(parameter, null, request, null);
+
+    if (authenticationPrincipal != null) {
+      customDgsContext.setAuthenticationPrincipal(authenticationPrincipal);
+    }
+
+    return authenticationPrincipal;
   }
 
   @Override

@@ -12,7 +12,7 @@ import io.moira.interfaces.graphql.dataloader.UserDataLoader;
 import io.moira.interfaces.graphql.dto.PageInfo;
 import io.moira.interfaces.graphql.dto.UserView;
 import io.moira.interfaces.graphql.dto.friend.FriendConnection;
-import io.moira.interfaces.graphql.dto.friend.FriendView;
+import io.moira.interfaces.graphql.dto.friend.FriendEdge;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.dataloader.DataLoader;
@@ -34,17 +34,16 @@ public class UserFriendsDataFetcher {
     GetFriendsByUserQuery query = new GetFriendsByUserQuery(UserId.of(user.id()), first, after);
     GetFriendsByUserResult result = getFriendsByUserUseCase.execute(query);
 
-    PageInfo pageInfo =
-        new PageInfo(
-            result.hasNext(),
-            result.hasPrevious(),
-            result.friendships().getLast().getId().toString());
+    String cursor =
+        result.friendships().isEmpty() ? null : result.friendships().getLast().getId().toString();
+
+    PageInfo pageInfo = new PageInfo(result.hasNext(), result.hasPrevious(), cursor);
 
     return CompletableFuture.completedFuture(
         new FriendConnection(
             result.totalCount(),
             result.friendships().stream()
-                .map(friendship -> FriendView.fromDomain(user.id(), friendship))
+                .map(friendship -> FriendEdge.fromDomain(friendship))
                 .toList(),
             pageInfo));
   }

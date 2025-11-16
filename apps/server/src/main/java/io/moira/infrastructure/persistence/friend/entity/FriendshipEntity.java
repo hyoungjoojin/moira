@@ -68,8 +68,8 @@ public class FriendshipEntity {
   public static FriendshipEntity fromDomain(Friendship friendship) {
     FriendshipEntity entity = new FriendshipEntity();
     entity.id = friendship.getId().value();
-    entity.userA = UserEntity.of(friendship.getUserA().value());
-    entity.userB = UserEntity.of(friendship.getUserB().value());
+    entity.userA = UserEntity.of(friendship.getLeftUser().value());
+    entity.userB = UserEntity.of(friendship.getRightUser().value());
     entity.status = friendship.getStatus();
     entity.createdAt = friendship.getCreatedAt();
     entity.acceptedAt = friendship.getAcceptedAt().orElse(null);

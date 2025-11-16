@@ -6,6 +6,8 @@ import io.moira.domain.friend.FriendshipRepository;
 import io.moira.domain.friend.FriendshipStatus;
 import io.moira.domain.user.UserId;
 import io.moira.shared.domain.UseCase;
+import io.moira.shared.util.Pair;
+import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,12 @@ public class FriendService {
       FriendshipRepository friendshipRepository, ApplicationEventPublisher eventPublisher) {
     this.friendshipRepository = friendshipRepository;
     this.eventPublisher = eventPublisher;
+  }
+
+  @UseCase
+  @Transactional(readOnly = true)
+  public List<Friendship> searchFriendships(List<Pair<UserId, UserId>> users) {
+    return friendshipRepository.findAllByUsers(users);
   }
 
   @UseCase
@@ -43,15 +51,15 @@ public class FriendService {
   @Transactional
   public void acceptFriendRequest(UserId from, UserId to) {
     Friendship friendship = friendshipRepository.findByUsers(from, to).orElseThrow();
-    if (friendship.getStatus() != FriendshipStatus.PENDING) {
+    if (friendship.getStatus() != FriendshipStatus.REQUEST_PENDING) {
       throw new IllegalStateException("Friend request is not in a pending state");
     }
 
-    if (!from.equals(friendship.getUserA())) {
+    if (!from.equals(friendship.getLeftUser())) {
       throw new AccessDeniedException("Only the recipient can accept the friend request");
     }
 
-    friendship.updateStatus(FriendshipStatus.ACCEPTED);
+    friendship.updateStatus(FriendshipStatus.FRIENDS);
     friendshipRepository.save(friendship);
     friendship.publishEvents(eventPublisher);
   }
@@ -60,15 +68,15 @@ public class FriendService {
   @Transactional
   public void rejectFriendRequest(UserId from, UserId to) {
     Friendship friendship = friendshipRepository.findByUsers(from, to).orElseThrow();
-    if (friendship.getStatus() != FriendshipStatus.PENDING) {
+    if (friendship.getStatus() != FriendshipStatus.REQUEST_PENDING) {
       throw new IllegalStateException("Friend request is not in a pending state");
     }
 
-    if (!from.equals(friendship.getUserA())) {
+    if (!from.equals(friendship.getLeftUser())) {
       throw new AccessDeniedException("Only the recipient can reject the friend request");
     }
 
-    friendship.updateStatus(FriendshipStatus.REJECTED);
+    friendship.updateStatus(FriendshipStatus.NOT_FRIENDS);
     friendshipRepository.save(friendship);
     friendship.publishEvents(eventPublisher);
   }

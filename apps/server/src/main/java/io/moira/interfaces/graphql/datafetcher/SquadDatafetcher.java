@@ -7,7 +7,6 @@ import io.moira.domain.squad.SquadId;
 import io.moira.domain.squad.member.Member;
 import io.moira.interfaces.graphql.dataloader.MembersDataLoader;
 import io.moira.interfaces.graphql.dto.MemberView;
-import io.moira.interfaces.graphql.dto.MessageConnection;
 import io.moira.interfaces.graphql.dto.SquadView;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -35,10 +34,5 @@ public class SquadDataFetcher {
     return dataloader
         .load(SquadId.of(squad.id()))
         .thenApply(members -> members.stream().map(MemberView::fromDomain).toList());
-  }
-
-  @DgsData(parentType = "Squad", field = "messages")
-  public CompletableFuture<MessageConnection> messages(DgsDataFetchingEnvironment dfe) {
-    return null;
   }
 }

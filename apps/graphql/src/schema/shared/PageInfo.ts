@@ -15,4 +15,4 @@ const PageInfo: GraphQLObjectType = new GraphQLObjectType({
   },
 });
 
-export { PageInfo };
+export default PageInfo;

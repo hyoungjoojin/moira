@@ -8,7 +8,10 @@ import io.moira.domain.user.UserId;
 import io.moira.infrastructure.persistence.friend.entity.FriendshipEntity;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
 import io.moira.infrastructure.persistence.user.repository.UserJpaRepository;
+import io.moira.shared.util.Pair;
+import java.util.List;
 import java.util.Optional;
+import org.jooq.DSLContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -16,11 +19,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FriendshipRepositoryImpl implements FriendshipRepository {
 
+  private final DSLContext dslContext;
   private final FriendshipJpaRepository friendshipJpaRepository;
   private final UserJpaRepository userJpaRepository;
 
   public FriendshipRepositoryImpl(
-      FriendshipJpaRepository friendshipJpaRepository, UserJpaRepository userJpaRepository) {
+      DSLContext dslContext,
+      FriendshipJpaRepository friendshipJpaRepository,
+      UserJpaRepository userJpaRepository) {
+    this.dslContext = dslContext;
     this.friendshipJpaRepository = friendshipJpaRepository;
     this.userJpaRepository = userJpaRepository;
   }
@@ -37,9 +44,23 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
 
     Page<FriendshipEntity> result =
         friendshipJpaRepository.findByUserAndStatus(
-            user, FriendshipStatus.ACCEPTED, cursor, pageRequest);
+            user, FriendshipStatus.FRIENDS, cursor, pageRequest);
 
     return result.map(FriendshipEntity::toDomain);
+  }
+
+  @Override
+  public List<Friendship> findAllByUsers(List<Pair<UserId, UserId>> users) {
+    return users.stream()
+        .map(pair -> Pair.create(pair, findByUsers(pair.first(), pair.second())))
+        .map(
+            result ->
+                result
+                    .second()
+                    .orElse(
+                        Friendship.createNonFrienship(
+                            result.first().first(), result.first().second())))
+        .toList();
   }
 
   @Override

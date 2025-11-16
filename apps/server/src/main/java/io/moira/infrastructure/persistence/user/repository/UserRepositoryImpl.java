@@ -6,6 +6,8 @@ import io.moira.domain.user.UserRepository;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,11 @@ public class UserRepositoryImpl implements UserRepository {
   @Transactional(readOnly = true)
   public Optional<User> findByEmail(String email) {
     return userJpaRepository.findByEmail(email).map(UserEntity::toDomain);
+  }
+
+  @Override
+  public Page<User> findAllByEmail(String email, String cursor, Pageable pageable) {
+    return userJpaRepository.findAllByEmail(email, cursor, pageable).map(UserEntity::toDomain);
   }
 
   @Override

@@ -6,7 +6,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from "graphql";
-import { User } from "./user.js";
+import User from "./user/index.js";
 import { DateTime } from "../scalars/datetime.js";
 
 const Member = new GraphQLObjectType({

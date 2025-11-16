@@ -1,11 +1,33 @@
+type SquadInviteNotification implements Notification {
+  id: ID!
+  createdAt: DateTime!
+  invitation: Invitation!
+}
+
+interface Notification {
+  id: ID!
+  createdAt: DateTime!
+}
+
+scalar DateTime
+
+type Invitation {
+  inviter: User!
+  invitee: User!
+  invitedTo: Squad!
+  sentAt: DateTime!
+  status: InvitationStatus!
+}
+
 type User {
   id: ID!
   email: String!
   fullName: String
   bio: String
   friends(first: Int, after: String): FriendConnection!
+  viewerRelation: Friendship!
   squads: [Squad]!
-  createdAt: DateTime!
+  joinedAt: DateTime!
 }
 
 type FriendConnection {
@@ -16,70 +38,22 @@ type FriendConnection {
 }
 
 type FriendEdge {
-  node: User!
-  friendsSince: DateTime!
+  node: Friendship!
   cursor: String!
 }
 
-scalar DateTime
-
-type Squad {
-  id: ID!
-  name: String!
-  members: [Member]!
-  invitations: [Invitation]!
-  messages: MessageConnection!
-  createdAt: DateTime!
+type Friendship {
+  leftUser: User!
+  rightUser: User!
+  status: FriendshipStatus!
+  since: DateTime
 }
 
-type Member {
-  user: User!
-  joinedAt: DateTime!
-  invitedBy: User
-}
-
-type Invitation {
-  inviter: User!
-  invitee: User!
-  invitedTo: Squad!
-  sentAt: DateTime!
-  status: InvitationStatus!
-}
-
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  REJECTED
-}
-
-type MessageConnection {
-  totalCount: Int!
-  nodes: [Message!]!
-  pageInfo: PageInfo!
-}
-
-type Message {
-  id: ID!
-  content: String!
-  sender: User!
-  timestamp: DateTime!
-}
-
-interface Notification {
-  id: ID!
-  createdAt: DateTime!
-}
-
-type SquadInviteNotification implements Notification {
-  id: ID!
-  createdAt: DateTime!
-  invitation: Invitation!
-}
-
-type FriendRequestNotification implements Notification {
-  id: ID!
-  createdAt: DateTime!
-  requester: User!
+enum FriendshipStatus {
+  FRIENDS
+  NOT_FRIENDS
+  REQUEST_PENDING
+  REQUEST_RECEIVED
 }
 
 type PageInfo {
@@ -89,32 +63,63 @@ type PageInfo {
   hasNextPage: Boolean!
 }
 
-type Query {
-  me: User!
-  user(id: ID!): User
-  users: [User]!
-  squad(id: ID!): Squad
-  notifications: [Notification]
-  search(after: ID, first: ID, query: String!, type: SearchType): SearchResultItemConnection!
+type Squad {
+  id: ID!
+  name: String!
+  members: [Member]!
+  invitations: [Invitation]!
+  createdAt: DateTime!
 }
 
-type SearchResultItemConnection {
-  totalCount: Int!
-  edges: [SearchResultItemEdge]!
+type Member {
+  user: User!
+  joinedAt: DateTime!
+  invitedBy: User
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+type FriendRequestNotification implements Notification {
+  id: ID!
+  createdAt: DateTime!
+  requester: User!
+}
+
+type Query {
+  user(id: ID!): User
+  squad(id: ID!): Squad
+  notifications: [Notification]
+  viewer: User!
+  search(input: SearchInput!): SearchResultConnection!
+}
+
+type SearchResultConnection {
+  userCount: Int!
+  edges: [SearchResultEdge!]!
   nodes: [SearchResultItem!]!
   pageInfo: PageInfo!
 }
 
-type SearchResultItemEdge {
+type SearchResultEdge {
   node: SearchResultItem!
   cursor: ID!
 }
 
-union SearchResultItem = User | Squad
+union SearchResultItem = User
+
+input SearchInput {
+  first: Int
+  after: String
+  query: String!
+  type: SearchType!
+}
 
 enum SearchType {
   USER
-  SQUAD
 }
 
 type Mutation {

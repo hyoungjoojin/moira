@@ -1,5 +1,6 @@
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import relay from 'eslint-plugin-relay';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -17,5 +18,11 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+  },
+  {
+    plugins: {
+      relay,
+    },
+    rules: relay.configs['ts-recommended'].rules,
   },
 ]);
