@@ -10,8 +10,21 @@ const SidebarMap: Partial<
   Record<FileRouteTypes['fullPaths'], React.ReactNode>
 > = {
   '/friends': <FriendSidebar />,
+  '/friends/$id': <FriendSidebar />,
   '/friends/add': <AddFriendSidebar />,
 };
+
+function getSidebar(pathname: string) {
+  if (pathname === '/friends/add') {
+    return <AddFriendSidebar />;
+  }
+
+  if (pathname.startsWith('/friends')) {
+    return <FriendSidebar />;
+  }
+
+  return null;
+}
 
 function Sidebar() {
   const pathname = useLocation({
@@ -20,7 +33,7 @@ function Sidebar() {
 
   const { open } = useSidebar();
 
-  const sidebar = SidebarMap[pathname as keyof typeof SidebarMap];
+  const sidebar = getSidebar(pathname);
   if (!sidebar) {
     return null;
   }
@@ -46,7 +59,7 @@ function ToggleSidebarButton() {
 
   const { toggleSidebar } = useSidebarActions();
 
-  const sidebar = SidebarMap[pathname as keyof typeof SidebarMap];
+  const sidebar = getSidebar(pathname);
   if (!sidebar) {
     return null;
   }

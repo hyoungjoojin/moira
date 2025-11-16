@@ -69,8 +69,9 @@ function Header() {
               variant='icon'
               icon={icon}
               invert
+              disabled={pathname.startsWith(to)}
               onClick={() => navigate({ to })}
-              className={cn(pathname === to && 'bg-background/10')}
+              className={cn(pathname.startsWith(to) && 'bg-background/10')}
             />
           ))}
         </div>
@@ -89,11 +90,7 @@ interface MainProps {
 }
 
 function Main({ children }: MainProps) {
-  return (
-    <main className='grow pt-5 pl-5'>
-      <div className='flex-1 overflow-y-auto py-5'>{children}</div>
-    </main>
-  );
+  return <main className='grow'>{children}</main>;
 }
 
 export default HomeLayout;

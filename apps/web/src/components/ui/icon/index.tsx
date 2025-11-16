@@ -1,14 +1,15 @@
 import {
   Bell,
   ChevronDoubleLeft,
+  Dots,
   Filter,
   Grid,
+  Heart,
   Menu,
   type MynaIconsProps,
   Plus,
   Search,
   Sidebar,
-  SkipBack,
   User,
   UserCheck,
   UserPlus,
@@ -30,7 +31,9 @@ type IconType =
   | 'list'
   | 'filter'
   | 'back'
-  | 'x';
+  | 'x'
+  | 'heart'
+  | 'ellipsis';
 
 type IconProps = {
   icon: IconType;
@@ -55,6 +58,8 @@ const map: Record<IconType, (props: MynaIconsProps) => JSX.Element> = {
   filter: Filter,
   back: ChevronDoubleLeft,
   x: X,
+  heart: Heart,
+  ellipsis: Dots,
 };
 
 export default Icon;

@@ -1,9 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
+import FriendPage from '@/features/friend/components/FriendPage';
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_home/friends/$id')({
-  component: RouteComponent,
-})
+  component: Friend,
+});
 
-function RouteComponent() {
-  return <div>Hello "/_home/friends/$id"!</div>
+function Friend() {
+  const { id } = Route.useParams();
+
+  return <FriendPage id={id} />;
 }
