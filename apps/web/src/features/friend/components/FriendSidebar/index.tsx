@@ -1,3 +1,4 @@
+import FriendList from './FriendList';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Separator from '@/components/ui/separator';
@@ -15,6 +16,8 @@ function FriendSidebar() {
         <div className='py-3'>
           <AddFriendButton />
         </div>
+
+        <FriendList />
       </div>
     );
   } else {

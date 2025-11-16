@@ -37,7 +37,7 @@ const FriendConnection: GraphQLObjectType = new GraphQLObjectType({
       type: new GraphQLNonNull(new GraphQLList(FriendEdge)),
     },
     nodes: {
-      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(User))),
+      type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(Friendship))),
     },
     pageInfo: {
       type: new GraphQLNonNull(PageInfo),

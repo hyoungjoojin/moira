@@ -7,12 +7,17 @@ import com.netflix.graphql.dgs.InputArgument;
 import io.moira.application.friend.GetFriendsByUserUseCase;
 import io.moira.application.friend.GetFriendsByUserUseCase.GetFriendsByUserQuery;
 import io.moira.application.friend.GetFriendsByUserUseCase.GetFriendsByUserResult;
+import io.moira.domain.friend.Friendship;
+import io.moira.domain.friend.FriendshipId;
+import io.moira.domain.user.User;
 import io.moira.domain.user.UserId;
+import io.moira.interfaces.graphql.dataloader.FriendshipDataLoader;
 import io.moira.interfaces.graphql.dataloader.UserDataLoader;
 import io.moira.interfaces.graphql.dto.PageInfo;
 import io.moira.interfaces.graphql.dto.UserView;
 import io.moira.interfaces.graphql.dto.friend.FriendConnection;
 import io.moira.interfaces.graphql.dto.friend.FriendEdge;
+import io.moira.interfaces.graphql.dto.friend.FriendshipView;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.dataloader.DataLoader;
@@ -49,11 +54,22 @@ public class UserFriendsDataFetcher {
   }
 
   @DgsData(parentType = "FriendConnection", field = "nodes")
-  public CompletableFuture<List<UserView>> nodes(DgsDataFetchingEnvironment dfe) {
+  public CompletableFuture<List<FriendshipView>> nodes(DgsDataFetchingEnvironment dfe) {
     FriendConnection friendConnection = dfe.getSource();
 
-    DataLoader<UserId, UserView> dataloader = dfe.getDataLoader(UserDataLoader.class);
-    return dataloader.loadMany(
-        friendConnection.edges().stream().map(edge -> UserId.of(edge.node())).toList());
+    DataLoader<FriendshipId, Friendship> dataloader = dfe.getDataLoader(FriendshipDataLoader.class);
+    return dataloader
+        .loadMany(
+            friendConnection.edges().stream().map(edge -> FriendshipId.of(edge.node())).toList())
+        .thenApply(list -> list.stream().map(FriendshipView::fromDomain).toList());
+  }
+
+  @DgsData(parentType = "Friendship", field = "rightUser")
+  public CompletableFuture<UserView> user(DgsDataFetchingEnvironment dfe) {
+    FriendshipView friendshipView = dfe.getSource();
+
+    DataLoader<UserId, User> dataloader = dfe.getDataLoader(UserDataLoader.class);
+
+    return dataloader.load(UserId.of(friendshipView.rightUser())).thenApply(UserView::fromDomain);
   }
 }

@@ -3,6 +3,7 @@ package io.moira.infrastructure.persistence.friend.repository;
 import io.moira.domain.friend.FriendshipStatus;
 import io.moira.infrastructure.persistence.friend.entity.FriendshipEntity;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 interface FriendshipJpaRepository extends JpaRepository<FriendshipEntity, UUID> {
+
+  @Query("SELECT f FROM FriendshipEntity f WHERE f.id IN :ids")
+  public List<FriendshipEntity> findAllByIds(List<UUID> ids);
 
   @Query(
       """

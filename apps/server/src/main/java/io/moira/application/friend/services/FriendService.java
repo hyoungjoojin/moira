@@ -2,11 +2,11 @@ package io.moira.application.friend.services;
 
 import io.moira.application.friend.exception.FriendshipAlreadyExistsException;
 import io.moira.domain.friend.Friendship;
+import io.moira.domain.friend.FriendshipId;
 import io.moira.domain.friend.FriendshipRepository;
 import io.moira.domain.friend.FriendshipStatus;
 import io.moira.domain.user.UserId;
 import io.moira.shared.domain.UseCase;
-import io.moira.shared.util.Pair;
 import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.AccessDeniedException;
@@ -27,8 +27,16 @@ public class FriendService {
 
   @UseCase
   @Transactional(readOnly = true)
-  public List<Friendship> searchFriendships(List<Pair<UserId, UserId>> users) {
-    return friendshipRepository.findAllByUsers(users);
+  public List<Friendship> getFriendshipsByIds(List<FriendshipId> ids) {
+    return friendshipRepository.findAllByIds(ids);
+  }
+
+  @UseCase
+  @Transactional(readOnly = true)
+  public Friendship getRelationship(UserId leftUser, UserId rightUser) {
+    return friendshipRepository
+        .findByUsers(leftUser, rightUser)
+        .orElse(Friendship.createNonFrienship(leftUser, rightUser));
   }
 
   @UseCase

@@ -21,4 +21,8 @@ public class FriendshipId extends ValueObject {
   public static FriendshipId create() {
     return new FriendshipId(UUID.randomUUID());
   }
+
+  public static FriendshipId of(String value) {
+    return new FriendshipId(UUID.fromString(value));
+  }
 }

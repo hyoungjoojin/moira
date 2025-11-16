@@ -9,17 +9,16 @@ import io.moira.interfaces.graphql.dto.UserView;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @DgsComponent
-public class AuthenticatedUserDataFetcher {
+public class ViewerDataFetcher {
 
   private final UserService userService;
 
-  public AuthenticatedUserDataFetcher(UserService userService) {
+  public ViewerDataFetcher(UserService userService) {
     this.userService = userService;
   }
 
   @DgsQuery(field = "viewer")
-  public UserView getAuthenticatedUser(@AuthenticationPrincipal String userId)
-      throws UserNotFoundException {
+  public UserView getViewer(@AuthenticationPrincipal String userId) throws UserNotFoundException {
     return UserView.fromDomain(userService.getUserById(UserId.of(userId)));
   }
 }

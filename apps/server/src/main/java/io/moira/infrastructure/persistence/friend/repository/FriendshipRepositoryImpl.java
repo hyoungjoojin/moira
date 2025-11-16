@@ -8,10 +8,9 @@ import io.moira.domain.user.UserId;
 import io.moira.infrastructure.persistence.friend.entity.FriendshipEntity;
 import io.moira.infrastructure.persistence.user.entity.UserEntity;
 import io.moira.infrastructure.persistence.user.repository.UserJpaRepository;
-import io.moira.shared.util.Pair;
 import java.util.List;
 import java.util.Optional;
-import org.jooq.DSLContext;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
@@ -19,15 +18,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FriendshipRepositoryImpl implements FriendshipRepository {
 
-  private final DSLContext dslContext;
   private final FriendshipJpaRepository friendshipJpaRepository;
   private final UserJpaRepository userJpaRepository;
 
   public FriendshipRepositoryImpl(
-      DSLContext dslContext,
-      FriendshipJpaRepository friendshipJpaRepository,
-      UserJpaRepository userJpaRepository) {
-    this.dslContext = dslContext;
+      FriendshipJpaRepository friendshipJpaRepository, UserJpaRepository userJpaRepository) {
     this.friendshipJpaRepository = friendshipJpaRepository;
     this.userJpaRepository = userJpaRepository;
   }
@@ -35,6 +30,14 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
   @Override
   public Optional<Friendship> findById(FriendshipId id) {
     return friendshipJpaRepository.findById(id.value()).map(FriendshipEntity::toDomain);
+  }
+
+  @Override
+  public List<Friendship> findAllByIds(List<FriendshipId> ids) {
+    List<UUID> keys = ids.stream().map(FriendshipId::value).toList();
+    return friendshipJpaRepository.findAllByIds(keys).stream()
+        .map(FriendshipEntity::toDomain)
+        .toList();
   }
 
   @Override
@@ -47,20 +50,6 @@ public class FriendshipRepositoryImpl implements FriendshipRepository {
             user, FriendshipStatus.FRIENDS, cursor, pageRequest);
 
     return result.map(FriendshipEntity::toDomain);
-  }
-
-  @Override
-  public List<Friendship> findAllByUsers(List<Pair<UserId, UserId>> users) {
-    return users.stream()
-        .map(pair -> Pair.create(pair, findByUsers(pair.first(), pair.second())))
-        .map(
-            result ->
-                result
-                    .second()
-                    .orElse(
-                        Friendship.createNonFrienship(
-                            result.first().first(), result.first().second())))
-        .toList();
   }
 
   @Override

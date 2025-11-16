@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1027e1c4ace51bc0b09ff2a4c6f6e258>>
+ * @generated SignedSource<<0863b2a653753ddb16329ecc99f13549>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,7 +9,7 @@
 // @ts-nocheck
 
 import { ReaderFragment } from 'relay-runtime';
-export type FriendshipStatus = "FRIENDS" | "NOT_FRIENDS" | "REQUEST_PENDING" | "REQUEST_RECEIVED" | "%future added value";
+export type FriendshipStatus = "FRIENDS" | "NOT_FRIENDS" | "REQUEST_PENDING" | "REQUEST_REJECTED" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type SearchResultsFragment$data = {
   readonly email: string;
